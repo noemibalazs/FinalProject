@@ -10,8 +10,7 @@ import java.util.concurrent.TimeUnit;
 public class AsyncTest extends InstrumentationTestCase{
 
 
-
-    public void testSomeAsynTask () throws Throwable {
+    public void testSomeAsyncTask () throws Throwable {
 
         final CountDownLatch signal = new CountDownLatch(1);
 
