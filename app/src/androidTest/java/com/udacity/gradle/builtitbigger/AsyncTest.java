@@ -1,23 +1,23 @@
 package com.udacity.gradle.builtitbigger;
 
-import android.os.AsyncTask;
 
+import android.os.AsyncTask;
 import android.test.InstrumentationTestCase;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-public class AsyncTest extends InstrumentationTestCase{
+public class AsyncTest extends InstrumentationTestCase {
 
 
     public void testSomeAsyncTask () throws Throwable {
 
         final CountDownLatch signal = new CountDownLatch(1);
 
-        final AsyncTask<String, Void, String> myTask = new AsyncTask<String, Void, String>() {
+        final AsyncTask<Void, Void, String> myTask = new AsyncTask<Void, Void, String>() {
 
             @Override
-            protected String doInBackground( String... params) {
+            protected String doInBackground( Void... params) {
                 return "A naked woman robbed a bank. Nobody could remember her face.";
             }
 
@@ -33,7 +33,7 @@ public class AsyncTest extends InstrumentationTestCase{
 
             @Override
             public void run() {
-                myTask.execute("A naked woman robbed a bank. Nobody could remember her face.");
+                myTask.execute();
             }
         });
 
@@ -41,5 +41,6 @@ public class AsyncTest extends InstrumentationTestCase{
 
         assertTrue("Happiness", true);
     }
+
 
 }

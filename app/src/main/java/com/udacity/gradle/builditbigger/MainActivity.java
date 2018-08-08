@@ -1,29 +1,23 @@
 package com.udacity.gradle.builditbigger;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
-import android.util.Pair;
 
-import com.example.android.joketeller.JokeTeller;
 import com.example.android.jokedealer.JokeDealer;
 
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String JOKE = "joke";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        new EndpointsAsyncTask().execute(new Pair<Context, String>(this, "Noemi"));
     }
 
 
@@ -47,12 +41,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void tellJoke(View view) {
-        //Toast.makeText(this, "derp", Toast.LENGTH_SHORT).show();
-        JokeTeller jokeTeller = new JokeTeller();
-        String joke = jokeTeller.getJoke();
-        Intent intent = new Intent(this, JokeDealer.class);
-        intent.putExtra(JOKE, joke);
-        startActivity(intent);
+      EndpointsAsyncTask task = new EndpointsAsyncTask(new EndpointsAsyncTask.AsyncTaskListener() {
+          @Override
+          public void justExecute(String result) {
+              Intent intent = new Intent(getApplicationContext(), JokeDealer.class);
+              intent.putExtra("joke", result);
+              startActivity(intent);
+
+
+          }
+      }){
+
+
+      };
+      task.execute();
     }
 
 

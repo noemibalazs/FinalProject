@@ -1,9 +1,6 @@
 package com.udacity.gradle.builditbigger;
 
-import android.content.Context;
 import android.os.AsyncTask;
-import android.widget.Toast;
-import android.util.Pair;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
@@ -13,13 +10,18 @@ import com.udacity.gradle.builditbigger.backend.myApi.MyApi;
 
 import java.io.IOException;
 
-public class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> {
+
+class EndpointsAsyncTask extends AsyncTask< Void, Void, String> {
 
     private static MyApi myApiService = null;
-    private Context context;
+    private AsyncTaskListener listener;
+
+    public EndpointsAsyncTask(AsyncTaskListener listener){
+        this.listener = listener;
+    }
 
     @Override
-    protected String doInBackground(Pair<Context, String>... params) {
+    protected String doInBackground( Void... params) {
 
         if(myApiService == null) {  // Only do this once
             MyApi.Builder builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(),
@@ -39,18 +41,25 @@ public class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, S
             myApiService = builder.build();
         }
 
-        context = params[0].first;
-        String name = params[0].second;
 
         try {
-            return myApiService.sayHi(name).execute().getData();
+           return myApiService.getJokeDealer().execute().getData();
+
         } catch (IOException e) {
-            return e.getMessage();
+           return e.getMessage();
         }
     }
 
     @Override
     protected void onPostExecute(String result) {
-        Toast.makeText(context, result, Toast.LENGTH_LONG).show();
+        if (listener != null){
+            this.listener.justExecute(result);
+        }
+
+
+    }
+
+    public interface AsyncTaskListener{
+        void justExecute(String result);
     }
 }

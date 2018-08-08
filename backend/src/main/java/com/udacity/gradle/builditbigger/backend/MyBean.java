@@ -9,14 +9,8 @@ public class MyBean {
 
     public String getData() {
 
+        myData = new JokeTeller().getJoke();
         return myData;
     }
 
-    public void setData(String data) {
-
-        JokeTeller jokeTeller = new JokeTeller();
-        String joke = jokeTeller.getJoke();
-        data = joke;
-        myData = data;
-    }
 }
