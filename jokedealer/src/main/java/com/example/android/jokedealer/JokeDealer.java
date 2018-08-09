@@ -8,6 +8,7 @@ import android.widget.TextView;
 public class JokeDealer extends AppCompatActivity {
 
     private TextView mJoke;
+    private String joke;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,7 +16,11 @@ public class JokeDealer extends AppCompatActivity {
         setContentView(R.layout.activity_joke_dealer);
 
         Intent intent = getIntent();
-        String joke = intent.getStringExtra("joke");
+
+        if(intent.hasExtra("joke")){
+            joke = intent.getStringExtra("joke");
+
+        }
 
         mJoke = findViewById(R.id.joke);
         mJoke.setText(joke);

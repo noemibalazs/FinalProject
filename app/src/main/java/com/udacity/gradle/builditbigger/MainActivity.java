@@ -12,6 +12,8 @@ import com.example.android.jokedealer.JokeDealer;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String JOKE = "joke";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
           @Override
           public void justExecute(String result) {
               Intent intent = new Intent(getApplicationContext(), JokeDealer.class);
-              intent.putExtra("joke", result);
+              intent.putExtra(JOKE, result);
               startActivity(intent);
 
 
